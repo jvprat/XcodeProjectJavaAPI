@@ -19,6 +19,8 @@
  */
 package com.sap.prd.mobile.ios.mios.xcodeprojreader;
 
+import com.sap.prd.mobile.ios.mios.xcodeprojreader.treeelements.PBXGroup;
+
 public class Project extends Element
 {
   public Project(ProjectFile projectFile)
@@ -41,6 +43,12 @@ public class Project extends Element
     String buildConfigurationListRef = getDict().getString("buildConfigurationList");
     Dict buildConfigurationList = getProjectFile().getObjectByReference(buildConfigurationListRef);
     return new BuildConfigurationList(getProjectFile(), buildConfigurationList);
+  }
+
+  public PBXGroup getMainGroup() {
+    String groupRef = getDict().getString("mainGroup");
+    Dict group = getProjectFile().getObjectByReference(groupRef);
+    return new PBXGroup(getProjectFile(), group);
   }
 
   public ReferenceArray<Target> getTargets()
