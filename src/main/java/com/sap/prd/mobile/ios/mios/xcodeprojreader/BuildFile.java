@@ -19,6 +19,8 @@
  */
 package com.sap.prd.mobile.ios.mios.xcodeprojreader;
 
+import com.sap.prd.mobile.ios.mios.xcodeprojreader.treeelements.PBXFileReference;
+
 public class BuildFile extends Element
 {
   public BuildFile(ProjectFile projectFile)
@@ -29,5 +31,12 @@ public class BuildFile extends Element
   public BuildFile(ProjectFile projectFile, Dict dict)
   {
     super(projectFile, dict);
+  }
+
+  public PBXFileReference getFile()
+  {
+    String fileRef = getDict().getString("fileRef");
+    Dict file = getProjectFile().getObjectByReference(fileRef);
+    return new PBXFileReference(getProjectFile(), file);
   }
 }
