@@ -19,9 +19,12 @@
  */
 package com.sap.prd.mobile.ios.mios.xcodeprojreader.buildphases;
 
+import com.sap.prd.mobile.ios.mios.xcodeprojreader.BuildFile;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.Dict;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.Element;
+import com.sap.prd.mobile.ios.mios.xcodeprojreader.ElementFactory;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.ProjectFile;
+import com.sap.prd.mobile.ios.mios.xcodeprojreader.ReferenceArray;
 
 public abstract class BuildPhase extends Element
 {
@@ -36,6 +39,26 @@ public abstract class BuildPhase extends Element
   public BuildPhase(ProjectFile projectFile, Dict dict)
   {
     super(projectFile, dict);
+  }
+
+  public ReferenceArray<BuildFile> getFiles()
+  {
+    return new ReferenceArray<BuildFile>(getProjectFile(), getDict().getOrCreateAndSetArray("files"),
+          new BuildFileFactory());
+  }
+
+  public String getRunOnlyForDeploymentPostprocessing()
+  {
+    return getDict().getString("runOnlyForDeploymentPostprocessing");
+  }
+
+  protected static class BuildFileFactory implements ElementFactory<BuildFile>
+  {
+    @Override
+    public BuildFile create(ProjectFile projectFile, Dict dict)
+    {
+      return new BuildFile(projectFile, dict);
+    }
   }
 
   public static BuildPhase create(ProjectFile projectFile, Dict dict)

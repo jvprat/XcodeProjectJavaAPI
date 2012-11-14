@@ -21,7 +21,6 @@ package com.sap.prd.mobile.ios.mios.xcodeprojreader.buildphases;
 
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.BuildFile;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.Dict;
-import com.sap.prd.mobile.ios.mios.xcodeprojreader.ElementFactory;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.ProjectFile;
 import com.sap.prd.mobile.ios.mios.xcodeprojreader.ReferenceArray;
 
@@ -50,12 +49,6 @@ public class PBXShellScriptBuildPhase extends BuildPhase
     d.setString("shellPath", "/bin/sh");
   }
 
-  public ReferenceArray<BuildFile> getFiles()
-  {
-    return new ReferenceArray<BuildFile>(getProjectFile(), getDict().getOrCreateAndSetArray("files"),
-          new BuildFileFactory());
-  }
-
   public ReferenceArray<BuildFile> getInputPaths()
   {
     return new ReferenceArray<BuildFile>(getProjectFile(), getDict().getOrCreateAndSetArray("inputPaths"),
@@ -66,11 +59,6 @@ public class PBXShellScriptBuildPhase extends BuildPhase
   {
     return new ReferenceArray<BuildFile>(getProjectFile(), getDict().getOrCreateAndSetArray("outputPaths"),
           new BuildFileFactory());
-  }
-
-  public String getRunOnlyForDeploymentPostprocessing()
-  {
-    return getDict().getString("runOnlyForDeploymentPostprocessing");
   }
 
   public String getShellPath()
@@ -86,14 +74,5 @@ public class PBXShellScriptBuildPhase extends BuildPhase
   public void setShellScript(String script)
   {
     getDict().setString("shellScript", script);
-  }
-
-  private static class BuildFileFactory implements ElementFactory<BuildFile>
-  {
-    @Override
-    public BuildFile create(ProjectFile projectFile, Dict dict)
-    {
-      return new BuildFile(projectFile, dict);
-    }
   }
 }
